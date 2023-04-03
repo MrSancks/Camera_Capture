@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,8 @@ namespace Camera_Upload
 {
     public partial class Form1 : Form
     {
-        private bool Devices;
+        private string Path = @"D:\Captura\";
+        private bool Devices = false;
         private FilterInfoCollection MyDevice;
         private VideoCaptureDevice MyCam;
         public Form1()
@@ -70,6 +72,21 @@ namespace Camera_Upload
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             CloseCam();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (!Directory.Exists(Path))
+            {
+                Directory.CreateDirectory(Path);
+                Console.WriteLine(Path);
+
+            }
+            if (MyCam != null && MyCam.IsRunning)
+            {
+                pictureBox2.Image = pictureBox1.Image;
+                pictureBox2.Image.Save(Path + "csns.jpg", ImageFormat.Jpeg);
+            }
         }
     }
 }
